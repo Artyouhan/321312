@@ -8,4 +8,3 @@ const countTime  = function(){
     }
 }
 
-setInterval(countTime,1000);
