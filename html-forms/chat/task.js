@@ -31,6 +31,9 @@ chatWidgetInput.onkeypress = function (e) {
                             <div class="message__text">${messageRobot[index]}</div>
                     </div>`;
         }
+        if (e.which === 32) {
+            e.preventDefault();
+          }
         chatWidgetInput.value = '';
     }
 }
