@@ -17,21 +17,16 @@ class Game {
   }
 
   registerEvents() {
-    let index = 0;
-    const that = this;
-    document.onkeypress = function(event) {
-      const symbol = document.body.querySelectorAll(".symbol");
-      let arr = Array.from(symbol);
-      if (arr[index].textContent == event.key.toLowerCase()) {
-        index += 1;
-        that.success();
-        if (index  == (arr.length)){
-          index = 0;
-        }
-      } else {
-        that.fail()
+    document.addEventListener('keydown', (event) => {
+      let symbol = this.currentSymbol;
+      if (symbol.textContent === event.key) {
+        this.success();
       }
-    }
+      else {
+        this.fail();
+      }
+    });
+
   }
 
   success() {
