@@ -8,13 +8,7 @@ chat.addEventListener('click', openChat);
 
 const input = document.querySelector('input.chat-widget__input');
 
-
-// input.addEventListener('keydown', () => { console.log(input.value);
-// })
 console.log(input.value);
-
-
-//input.setAttribute('type', 'submit');
 
 
 input.addEventListener('keyup', event => {
@@ -28,7 +22,6 @@ input.addEventListener('keyup', event => {
             let now = new Date();
             let time = now.getHours() + ':' + now.getMinutes();
             const messages = document.querySelector( '.chat-widget__messages' );
-            // добавит
             messages.innerHTML += `
               <div class="message_client">
                 <div class="message__time">` + time + `</div>
