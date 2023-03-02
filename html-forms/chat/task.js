@@ -1,39 +1,62 @@
-const chatWidgetSideText = document.querySelector('.chat-widget__side-text');
-chatWidgetSideText.onclick = function () {
-    const chatWidget = document.querySelector('.chat-widget');
-    chatWidget.classList.add('chat-widget_active');
+let chat = document.querySelector('div.chat-widget');
+
+let openChat = () => {
+    chat.classList.add('chat-widget_active')
 };
 
-const chatWidgetInput = document.getElementById('chat-widget__input');
-chatWidgetInput.onkeypress = function (e) {
-    if (e.which == 13) {
-        const timme = new Date();
-        const messageCustomer = chatWidgetInput.value;
-        const messageRobot = [
-            'Кто тут?',
-            'Где ваша совесть?',
-            'К сожалению  все операторы сейчас заняты! Не пишите нам больше!',
-            'Вы не купили не одного товара, что б так с нами разговаривать!',
-            'Добрый день! До свидания!',
-            'Мы нечего не будем вам продавать!',
-            'Где ваша совесть?',
-        ],
-            index = Math.floor(Math.random() * messageRobot.length);
-        if (messageCustomer != '') {
-            const messages = document.querySelector('.chat-widget__messages');
+chat.addEventListener('click', openChat);
+
+const input = document.querySelector('input.chat-widget__input');
+
+
+// input.addEventListener('keydown', () => { console.log(input.value);
+// })
+console.log(input.value);
+
+
+//input.setAttribute('type', 'submit');
+
+
+input.addEventListener('keyup', event => {
+    event.preventDefault();
+    
+    if ((13 == event.keyCode)) {
+        let value = input.value.trim();
+        if (value === '') {
+            alert('нельзя отправить пустое сообщение');
+        } else {
+            let now = new Date();
+            let time = now.getHours() + ':' + now.getMinutes();
+            const messages = document.querySelector( '.chat-widget__messages' );
+            // добавит
             messages.innerHTML += `
-                    <div class="message message_client">
-                        <div class="message__time">${timme.getHours()}:${timme.getMinutes()}</div>
-                        <div class="message__text">${messageCustomer}</div>
-                    </div>
-                    <div class="message">
-                            <div class="message__time">${timme.getHours()}:${timme.getMinutes()}</div>
-                            <div class="message__text">${messageRobot[index]}</div>
-                    </div>`;
+              <div class="message_client">
+                <div class="message__time">` + time + `</div>
+                <div class="message__text">` +
+                  value
+                + `</div>
+              </div>
+            `;
+
+            input.value = '';
+            setTimeout( () => {
+              answer = [
+                'Добрый день! До свидания!',
+                'Убирайтесь',
+                'Кто тут?',
+                'Мы ничего не будем вам продавать!',
+                'Где ваша совесть?!'
+            ];
+              rnd = Math.floor(Math.random() * 5);
+              messages.innerHTML += `
+              <div class="message">
+                <div class="message__time">` + time + `</div>
+                <div class="message__text">` +
+                  answer[rnd]
+                + `</div>
+              </div>
+            `;
+            }, 1000);
         }
-        if (e.which === 32) {
-            e.preventDefault();
-          }
-        chatWidgetInput.value = '';
     }
-}
+});
