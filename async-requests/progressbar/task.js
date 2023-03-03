@@ -11,19 +11,18 @@ form.addEventListener('submit', (e) => {
 });
 
 function fn(e) {
-    progress.value = event.loaded/event.total;
-};
-
-function addListeners(xhr) {
-    xhr.addEventListener('loadstart', fn);
-    xhr.addEventListener('load', fn);
-    xhr.addEventListener('loadend', fn);
-    xhr.addEventListener('progress', fn);
-    xhr.addEventListener('error', fn);
-};
-
-function runXHR(formData) {
-    const xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
+    xhr.upload.onprogress = function(event) {
+        alert(`Отправлено ${event.loaded} из ${event.total}`);
+      };
+    
+      xhr.onloadend = function() {
+        if (xhr.status == 200) {
+          alert("Успех");
+        } else {
+          alert("Ошибка " + this.status);
+        }
+      };
 
     xhr.open("POST", 'https://students.netoservices.ru/nestjs-backend/upload');
     addListeners(xhr)
