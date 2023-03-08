@@ -4,10 +4,13 @@ const tasksList = document.getElementById(`tasks__list`);
 let taskRemoveButton;
 let tasks;
 
-function taskAdd() {
-    if (tasksInput.value) {
+function taskAdd(event) {  
         event.preventDefault();
-
+        if ((13 == event.keyCode)) {
+            let value = input.value.trim();
+            if (value === '') {
+                alert('нельзя отправить пустое сообщение');
+            }else {
         tasksList.insertAdjacentHTML(`beforeEnd`, `
             <div class="task">
             <div class="task__title">
@@ -16,20 +19,16 @@ function taskAdd() {
             <a href="#" class="task__remove">&times;</a>
             </div>`);
         
-        tasksInput.value = "";
-
+        
         taskRemoveButton = document.getElementsByClassName(`task__remove`);
         tasks = document.getElementsByClassName(`task`);        
     }
 }
+}
 
 tasksAddButton.addEventListener(`click`, taskAdd);
 
-tasksInput.addEventListener(`keydown`, event => {    
-    if (event.keyCode === 13) {
-        taskAdd();            
-    }
-});
+
 
 tasksList.onclick = function(event) {
     let target = event.target;

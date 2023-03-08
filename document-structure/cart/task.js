@@ -11,18 +11,13 @@ for (let item of addButtons) {
     item.addEventListener('click', addToCart);
 }
 
-function changeValue(event) {
-
-    let value = event.target.parentNode.querySelector('.product__quantity-value');
-    let count = +value.innerText;
-    
-    if (event.target.classList.contains('product__quantity-control_inc')) {
-        value.innerText = Number(value.innerText) + 1;
-    } else {
-        if (count > 1) {
-            value.innerText = Number(value.innerText) - 1;
-        } 
-    }
+function changeValue() {
+const productInCard = cards.find(cart);
+if(productInCard) {
+    productInCard ++;
+} else {
+addToCart;
+}
 }
 
 function addToCart(event) {
