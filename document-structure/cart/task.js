@@ -1,49 +1,59 @@
-const cart = document.querySelector('.cart__products');
-const valueButtons = document.querySelectorAll('.product__quantity-control');
-const addButtons = document.querySelectorAll('.product__add');
+let addButtons = Array.from(document.getElementsByClassName("product__add"));
+let decreaseBtns = Array.from(document.getElementsByClassName("product__quantity-control_dec"));
+let increaseBtns = Array.from(document.getElementsByClassName("product__quantity-control_inc"));
 
+function addItem() {
+  let newItem = this.closest("div.product");
+  let amount = Number(newItem.getElementsByClassName("product__quantity-value")[0].textContent);
+  let picture = newItem.getElementsByClassName("product__image")[0].src;
+  let idItem = newItem.getAttribute("data-id");
+  let cart = document.getElementsByClassName("cart__products")[0];
 
-for (let item of valueButtons) {
-    item.addEventListener('click', changeValue);
+  function addNewItem() {
+    let newItemDiv =
+      `<div class="cart__product" data-id=${idItem}>
+        <img class="cart__product-image" src=${picture}>
+        <div class="cart__product-count">${amount}</div>
+      </div>`;
+  cart.insertAdjacentHTML("afterBegin", newItemDiv);
+  }
+
+  let cartProd = Array.from(cart.getElementsByClassName("cart__product"));
+  let cartProdId = [];
+  for (let i = 0; i < cartProd.length; i++) {
+    cartProdId[i] = cartProd[i].getAttribute("data-id");
+  }
+  if (cartProdId.indexOf(idItem) !== -1) {
+    for (let i = 0; i < cartProdId.length; i++) {
+      if (cartProdId[i] === idItem) {
+        cartProd[i].querySelector(".cart__product-count").textContent = Number(cartProd[i].querySelector(".cart__product-count").textContent) + amount;
+      }
+    }  
+  } else {
+    addNewItem();
+  } 
 }
 
-for (let item of addButtons) {
-    item.addEventListener('click', addToCart);
+for (let addButton of addButtons) {
+  addButton.addEventListener("click", addItem);
 }
 
-function changeValue() {
-const productInCard = cards.find(cart);
-if(productInCard) {
-    productInCard ++;
-} else {
-addToCart;
-}
+function decrBtnChange() {
+  let counter = this.nextElementSibling;
+  if (Number(counter.textContent) > 1) {
+    counter.textContent = Number(counter.textContent) - 1;    
+  }
 }
 
-function addToCart(event) {
+function incrBtnChange() {
+    let counter = this.previousElementSibling;
+     counter.textContent = Number(counter.textContent) + 1; 
+}
 
-    const product = event.target.closest('.product');
-    const id = product.dataset.id;
-    const countFromProduct = +event.target.parentNode.querySelector('.product__quantity-value').innerText;
+for (let decreaseBtn of decreaseBtns) {
+  decreaseBtn.addEventListener("click", decrBtnChange);
+}
 
-    for (let item of cart.children) {
-
-        if (item.dataset.id === id) {
-            let productCount = item.querySelector('.cart__product-count');
-            let total = +productCount.innerText;
-            productCount.innerText = total + countFromProduct;
-
-            return false;
-        }
-    }
-
-    const productImg = product.querySelector('.product__image').src;
-    const count = product.querySelector('.product__quantity-value').innerText;
-
-    const productToCart = `<div class="cart__product" data-id="${id}">
-                                <img class="cart__product-image" src="${productImg}">
-                                <div class="cart__product-count">${count}</div>
-                            </div>`;
-
-    cart.insertAdjacentHTML('beforeend', productToCart);
+for (let increaseBtn of increaseBtns) {
+  increaseBtn.addEventListener("click", incrBtnChange);
 }
